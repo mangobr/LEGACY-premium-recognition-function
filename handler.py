@@ -1,8 +1,8 @@
 import boto3
 import urllib
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import os
-load_dotenv()
+#load_dotenv()
 ACCESS_KEY = os.environ.get("ACCESS_KEY")
 SECRET_KEY = os.environ.get("SECRET_KEY")
 REKOGNITION_MODEL = os.environ.get("REKOGNITION_MODEL")
@@ -14,8 +14,10 @@ def detect_custom_labels(bucket, key):
     return response
 
 def lambda_handler(event, context):
-    bucket = event['Records'][0]['s3']['bucket']['name']
-    key = urllib.unquote_plus(event['Records'][0]['s3']['object']['key'].encode('utf8'))
+    # bucket = event['Records'][0]['s3']['bucket']['name']
+    # key = urllib.unquote_plus(event['Records'][0]['s3']['object']['key'].encode('utf8'))
+    bucket = 'com.rekoreko.premium'
+    key = 'perfil.png'
     try:
         lambda_handler_response = detect_custom_labels(bucket, key)
         return lambda_handler_response

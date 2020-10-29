@@ -1,0 +1,54 @@
+image: node:11.13.0-alpine
+
+pipelines:
+  custom: # Pipelines that are triggered manually
+    deployment-to-prod:
+      - step:
+          name: Build to prod
+          caches:
+            - node
+          script:
+            - echo "Build to prod"
+      - step:
+          name: Test to prod
+          caches:
+            - node
+          script:
+            - echo "test to prod"
+      - step:
+          name: Deploy to prod
+          caches:
+            - node
+          script:
+            - echo "Deploy to prod"
+  branches:
+    # development:
+    #   - step:
+    #       name: Test to homlog
+    #       caches:
+    #         - node
+    #       script:
+    #         - echo "Realizar testes aqui"
+    #   - step:
+    #       name: Deploy to homlog
+    #       caches:
+    #         - node
+    #       script:
+    #         - npm install -g serverless
+    #         - serverless config credentials --stage homlog --provider aws --key ${AWS_ACCESS_KEY} --secret ${AWS_SECRET_KEY}
+    #         - serverless deploy --stage homlog
+    FA-159-criar-serverless-yml-rekoreko-p:
+      - step:
+          name: Test to staging
+          caches:
+            - node
+          script:
+            - echo "Realizar testes aqui"
+      - step:
+          name: Deploy to staging
+          caches:
+            - node
+          script:
+            - npm install -g serverless
+            - serverless config credentials --stage staging --provider aws --key ${AWS_ACCESS_KEY} --secret ${AWS_SECRET_KEY}
+            - serverless deploy --stage staging
