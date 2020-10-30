@@ -16,7 +16,7 @@ provider:
       Resource: arn:aws:s3:::com.rekoreko.premium
     - Effect: Allow
       Action:
-        - rekognition:DetectLabels
+        - rekognition:DetectCustomLabels
       Resource: "*"
 
 package:
