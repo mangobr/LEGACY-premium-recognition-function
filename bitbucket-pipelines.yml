@@ -1,0 +1,36 @@
+image: node:12-alpine
+pipelines:
+  branches:
+    main:
+      - step:
+          name: Start Deployment to Production
+          script:
+            - echo "Start Deployment"
+      - step:
+          name: Deploy to prod
+          trigger: manual
+          caches:
+            - node
+          script:
+            - pipe: atlassian/serverless-deploy:0.2.2
+              variables:
+                LAMBDA_OUT: $LAMBDA_OUT_PRD
+                REKOGNITION_MODEL: $REKOGNITION_MODEL
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_KEY
+                EXTRA_ARGS: "--stage prod"
+                STAGE: "prod"
+    development:
+      - step:
+          name: Deploy to hml
+          caches:
+            - node
+          script:
+            - pipe: atlassian/serverless-deploy:0.2.2
+              variables:
+                LAMBDA_OUT: $LAMBDA_OUT_HML
+                REKOGNITION_MODEL: $REKOGNITION_MODEL
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_KEY
+                EXTRA_ARGS: "--stage hml"
+                STAGE: "hml"

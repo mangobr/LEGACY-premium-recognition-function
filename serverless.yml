@@ -1,0 +1,40 @@
+service: RekoReko-premium
+
+provider:
+  name: aws
+  runtime: python2.7
+  stage: ${env:STAGE}
+  region: us-east-1
+  memorySize: 128
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:ListBucket
+        - s3:GetObject
+        - s3:DeleteObject
+      Resource: arn:aws:s3:::com.mango.rekoreko.premium
+    - Effect: Allow
+      Action:
+        - rekognition:DetectCustomLabels
+      Resource: "*"
+
+package:
+  exclude:
+    - .gitignore
+    - bitbucket-pipelines.yml
+    - serverless.yml
+  excludeDevDependencies: true
+  individually: true
+
+functions:
+  lambda_handler:
+    handler: handler.lambda_handler
+    environment:
+      REKOGNITION_MODEL: ${env:REKOGNITION_MODEL}
+    events:
+      - s3:
+          bucket: com.mango.rekoreko.premium
+          event: s3:ObjectCreated:*
+    destinations:
+      onSuccess: ${env:LAMBDA_OUT}

@@ -48,3 +48,13 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Environment Variables
+.env
+
+#SERVERLESS STUFF
+admin.env
+.env
+_meta
+.serverless
+
+
